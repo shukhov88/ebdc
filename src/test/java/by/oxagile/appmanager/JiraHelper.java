@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -17,27 +18,25 @@ public class JiraHelper extends BaseHelper {
         super(wd);
     }
 
-    public void createProject(String projectName, String projectKey) {
+    public void createProject(String projectName) throws InterruptedException {
         click(By.id("browse_link"));
         click(By.id("project_template_create_link_lnk"));
         wd.findElements(By.cssSelector("div.template-meta")).get(0).click();
         click(By.cssSelector("button.create-project-dialog-create-button"));
         click(By.cssSelector("button.template-info-dialog-create-button"));
         type(By.id("name"), projectName);
-        wd.findElement(By.id("key")).clear();
-        wd.findElement(By.id("key")).sendKeys(projectKey);
-
         click(By.cssSelector("button.add-project-dialog-create-button"));
     }
 
     public void createSprint(int quantity) throws InterruptedException {
         for (int i = 0; i < quantity; i++) {
+            Thread.sleep(1000);
             click(By.cssSelector("button.js-add-sprint"));
         }
     }
 
     public void createSprint() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         click(By.cssSelector("button.js-add-sprint"));
     }
 
@@ -68,38 +67,21 @@ public class JiraHelper extends BaseHelper {
 
 
     public void initStoryCreation() throws InterruptedException {
-        Thread.sleep(1000);
-        //init story creation
+        Thread.sleep(1500);
         click(By.id("create_link"));
-
-        //select project
-        /*if (!wd.findElement(By.id("project-field")).getAttribute("value").equals("test (TEST)")) {
-            click(By.id("project-field"));
-            click(By.id("test-(test)-13"));
-        }
-
-        //select issue type - story
-        if (!wd.findElement(By.id("issuetype-field")).getAttribute("value").equals("Story")) {
-            click(By.id("issuetype-field"));
-            click(By.cssSelector("li.aui-list-item.aui-list-item-li-story"));
-        }*/
     }
 
-    public void fillStory(Issue issue) {
+    public void fillStory(Issue issue) throws InterruptedException {
 
-        //fill the summary of issue
         type(By.id("summary"), issue.getSummary());
-
-        //fill the created in sprint field
         type(By.id("customfield_10007"), issue.getCreatedInSprint());
-
-        //fill the story points field
         type(By.id("customfield_10006"), issue.getStoryPoints());
 
         //select the sprint number
-        wd.findElement(By.id("customfield_10000-field")).sendKeys("YYYY Sprint " + issue.getSprint());
+        wd.findElement(By.id("customfield_10000-field")).sendKeys("WEED Sprint " + issue.getSprint());
         //wd.findElement(By.id("customfield_10000-field")).click();
-        //wd.findElement(By.id("[id*='sprint-" + issue.getSprint() + "-']")).click();
+        Thread.sleep(500);
+        //wd.findElement(By.cssSelector("[id*='sprint-" + issue.getSprint() + "-']")).click();
 
         //wd.findElement(By.id("customfield_10000-field")).sendKeys(Keys.ESCAPE);
 
@@ -107,6 +89,23 @@ public class JiraHelper extends BaseHelper {
 
         //create
         click(By.id("create-issue-submit"));
+    }
 
+    public void closeSprints() throws InterruptedException {
+        Thread.sleep(1000);
+        click(By.cssSelector("button.js-sprint-start.aui-button.aui-button-primary"));
+        click(By.cssSelector("button.button-panel-button.aui-button"));
+        int storiesToDrag = wd.findElements(By.cssSelector("li.ghx-column.ui-sortable:first-child div.js-detailview.ghx-issue")).size();
+
+        for (int i = 0; i < storiesToDrag; i++) {
+            List<WebElement> targetsList = wd.findElements(By.cssSelector("li.ghx-column.ui-sortable:first-child div.js-detailview.ghx-issue"));
+            WebElement source = wd.findElement(By.cssSelector("li.ghx-column.ui-sortable:nth-child(3)"));
+            dragAndDrop(targetsList.get(0), source);
+            Thread.sleep(2000);
+        }
+        Thread.sleep(1000);
+        click(By.id("ghx-complete-sprint"));
+        click(By.cssSelector("button.button-panel-button.aui-button.ghx-complete-button"));
+        click(By.cssSelector("span.aui-icon.aui-icon-large.agile-icon-plan"));
     }
 }

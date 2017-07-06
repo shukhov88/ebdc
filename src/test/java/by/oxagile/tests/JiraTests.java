@@ -19,14 +19,23 @@ public class JiraTests extends TestBase {
         ExcelParser excel = new ExcelParser(excelFile);
         List<Issue> stories = excel.readFromExcel();
 
-        app.jira().createProject("yyyy", "YYYY");
+        app.jira().createProject("weedy");
         app.jira().configureFields();
-        app.jira().createSprint(30);
+        //app.jira().createSprint(30);
+
+        int counter = 0;
 
         for (int i = 0; i < stories.size(); i++) {
+            if (i==0 || i%3==0) {
+                app.jira().createSprint();
+                counter++;
+            }
             app.jira().initStoryCreation();
             app.jira().fillStory(stories.get(i));
         }
 
+        for (int i = 0; i < counter; i++) {
+            app.jira().closeSprints();
+        }
     }
 }

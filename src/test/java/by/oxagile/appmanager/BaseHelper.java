@@ -40,6 +40,15 @@ public class BaseHelper {
         }
     }
 
+    public void dragAndDrop(WebElement source, WebElement target) {
+        Actions builder = new Actions(wd);
+        Action dragAndDrop = builder.clickAndHold(source)
+                .moveToElement(target)
+                .release(target)
+                .build();
+        dragAndDrop.perform();
+    }
+
     public boolean isAlertPresent() {
         try {
             wd.switchTo().alert();
