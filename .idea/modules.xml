@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ebdc.iml" filepath="$PROJECT_DIR$/.idea/modules/ebdc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ebdc_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ebdc_main.iml" group="ebdc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ebdc_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ebdc_test.iml" group="ebdc" />
+    </modules>
+  </component>
+</project>
