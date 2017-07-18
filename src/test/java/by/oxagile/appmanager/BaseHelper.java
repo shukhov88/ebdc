@@ -1,5 +1,6 @@
 package by.oxagile.appmanager;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -25,6 +26,7 @@ public class BaseHelper {
         Actions action = new Actions(wd);
         WebDriverWait wait = new WebDriverWait(wd, 10);
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.aui-blanket")));
         //WebElement element = wd.findElement(locator);
         action.moveToElement(element).click().perform();
     }

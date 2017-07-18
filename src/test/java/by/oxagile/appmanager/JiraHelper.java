@@ -2,11 +2,13 @@ package by.oxagile.appmanager;
 
 
 import by.oxagile.model.Issue;
+import com.google.common.base.Predicate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -45,8 +47,8 @@ public class JiraHelper extends BaseHelper {
         click(By.cssSelector("span.aui-icon.aui-icon-small.aui-iconfont-configure"));
         click(By.id("admin_issues_menu"));
         click(By.id("view_custom_fields"));
-        click(By.cssSelector("[aria-controls='field-actions-customfield_10007']"));
-        click(By.id("associate_customfield_10007"));
+        click(By.cssSelector("[aria-controls='field-actions-customfield_10100']"));
+        click(By.id("associate_customfield_10100"));
         List<WebElement> list = wd.findElements(By.cssSelector("[name='associatedScreens']:not([checked=checked])"));
         for (int i = 0; i < list.size(); i++) {
             list.get(i).click();
@@ -67,28 +69,31 @@ public class JiraHelper extends BaseHelper {
 
 
     public void initStoryCreation() throws InterruptedException {
-        Thread.sleep(1500);
+        Thread.sleep(1000);
         click(By.id("create_link"));
     }
 
     public void fillStory(Issue issue) throws InterruptedException {
 
         type(By.id("summary"), issue.getSummary());
-        type(By.id("customfield_10007"), issue.getCreatedInSprint());
+        type(By.id("customfield_10100"), issue.getCreatedInSprint());
         type(By.id("customfield_10006"), issue.getStoryPoints());
 
         //select the sprint number
-        wd.findElement(By.id("customfield_10000-field")).sendKeys("WEED Sprint " + issue.getSprint());
+        wd.findElement(By.id("customfield_10004-field")).sendKeys("ATIR Sprint " + issue.getSprint());
         //wd.findElement(By.id("customfield_10000-field")).click();
         Thread.sleep(500);
         //wd.findElement(By.cssSelector("[id*='sprint-" + issue.getSprint() + "-']")).click();
 
         //wd.findElement(By.id("customfield_10000-field")).sendKeys(Keys.ESCAPE);
 
-        wd.findElement(By.id("customfield_10000-field")).sendKeys(Keys.ENTER);
+        wd.findElement(By.id("customfield_10004-field")).sendKeys(Keys.ENTER);
 
         //create
         click(By.id("create-issue-submit"));
+
+        //closing pop-up that overlaps [create] button
+        //click(By.cssSelector("span.aui")); to edit selector
     }
 
     public void closeSprints() throws InterruptedException {
@@ -108,4 +113,5 @@ public class JiraHelper extends BaseHelper {
         click(By.cssSelector("button.button-panel-button.aui-button.ghx-complete-button"));
         click(By.cssSelector("span.aui-icon.aui-icon-large.agile-icon-plan"));
     }
+
 }

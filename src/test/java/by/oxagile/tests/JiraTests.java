@@ -1,6 +1,8 @@
 package by.oxagile.tests;
 
 import by.oxagile.model.Issue;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -19,7 +21,7 @@ public class JiraTests extends TestBase {
         ExcelParser excel = new ExcelParser(excelFile);
         List<Issue> stories = excel.readFromExcel();
 
-        app.jira().createProject("weedy");
+        app.jira().createProject("atir");
         app.jira().configureFields();
         //app.jira().createSprint(30);
 
