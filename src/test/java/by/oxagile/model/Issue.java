@@ -8,6 +8,7 @@ public class Issue {
     private String createdInSprint;
     private String Sprint;
     private String storyPoints;
+    private String label;
 
     public Issue withSummary(String summary) {
         this.summary = summary;
@@ -29,6 +30,11 @@ public class Issue {
         return this;
     }
 
+    public Issue withLabel(String label) {
+        this.label = label;
+        return this;
+    }
+
     public String getSummary() {
         return summary;
     }
@@ -43,6 +49,10 @@ public class Issue {
 
     public String getStoryPoints() {
         return storyPoints;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     @Override

@@ -10,7 +10,7 @@ public class CloseSprints extends TestBase {
     @Test
     public void testJira() throws InterruptedException, IOException {
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 9; i++) {
             app.jira().closeSprints();
         }
     }

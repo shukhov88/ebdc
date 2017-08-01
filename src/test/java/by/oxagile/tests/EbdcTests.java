@@ -12,7 +12,7 @@ import java.util.List;
 import by.oxagile.appmanager.ExcelParser;
 
 
-public class JiraTests extends TestBase {
+public class EbdcTests extends TestBase {
 
     @Test
     public void testJira() throws InterruptedException, IOException {

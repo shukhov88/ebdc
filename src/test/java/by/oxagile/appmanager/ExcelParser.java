@@ -71,4 +71,47 @@ public class ExcelParser {
 
         return stories;
     }
+
+    public List<Issue> readFromVelocityExcel() throws IOException {
+        String path = file.getAbsolutePath();
+        List<Issue> stories = new ArrayList<>();
+
+        XSSFWorkbook myExcelBook = new XSSFWorkbook(new FileInputStream(path));
+        XSSFSheet sheet = myExcelBook.getSheetAt(0);
+
+        int rowsNumber = sheet.getLastRowNum();
+
+        for (int i = 1; i <= rowsNumber; i++) {
+
+            String summary = "";
+            String label = "";
+            String storyPoints = "";
+            Issue story = new Issue();
+
+            XSSFRow row = sheet.getRow(i);
+            for (int j = 0; j < 3; j++) {
+                XSSFCell cell = row.getCell(j);
+
+                if (j==0) {
+                    summary = cell.getStringCellValue();
+                    story.withSummary(summary);
+                }
+                if (j==1) {
+                    label = cell.getStringCellValue();;
+                    story.withLabel(label);
+                }
+                if (j==2) {
+                    storyPoints = String.valueOf((int) cell.getNumericCellValue());
+                    story.withStoryPoints(storyPoints);
+                }
+            }
+
+            stories.add(story);
+
+        }
+
+        myExcelBook.close();
+
+        return stories;
+    }
 }

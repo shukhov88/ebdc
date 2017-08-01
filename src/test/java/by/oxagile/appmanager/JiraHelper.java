@@ -67,6 +67,22 @@ public class JiraHelper extends BaseHelper {
 
     }
 
+    public void configureVelocityFields() throws InterruptedException {
+        Thread.sleep(5000);
+        click(By.cssSelector("span.aui-icon.aui-icon-small.aui-iconfont-configure"));
+        click(By.id("admin_issues_menu"));
+        click(By.id("view_custom_fields"));
+        click(By.cssSelector("[aria-controls='field-actions-customfield_10006']"));
+        click(By.id("associate_customfield_10006"));
+        List<WebElement> list = wd.findElements(By.cssSelector("[name='associatedScreens']:not([checked=checked])"));
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).click();
+        }
+        click(By.id("update_submit"));
+        click(By.cssSelector("[accesskey='p']"));
+        click(By.cssSelector("a#admin_main_proj_link_lnk"));
+    }
+
 
     public void initStoryCreation() throws InterruptedException {
         Thread.sleep(1000);
@@ -91,9 +107,26 @@ public class JiraHelper extends BaseHelper {
 
         //create
         click(By.id("create-issue-submit"));
+    }
 
-        //closing pop-up that overlaps [create] button
-        //click(By.cssSelector("span.aui")); to edit selector
+    public void fillStoryVelocity(Issue issue, int sprint) throws InterruptedException {
+
+        type(By.id("summary"), issue.getSummary());
+        //set the labels
+        if (!issue.getLabel().equals("empty")) {
+            wd.findElement(By.id("labels-textarea")).sendKeys(issue.getLabel());
+            wd.findElement(By.id("labels-textarea")).sendKeys(Keys.ENTER);
+        }
+        //select the sprint number
+        wd.findElement(By.id("customfield_10004-field")).sendKeys("ATIR Sprint " + sprint);
+        wd.findElement(By.id("customfield_10004-field")).sendKeys(Keys.ENTER);
+
+        //enter strory points
+        if (!issue.getStoryPoints().equals("0")) {
+            type(By.id("customfield_10006"), issue.getStoryPoints());
+        }
+        //create
+        click(By.id("create-issue-submit"));
     }
 
     public void closeSprints() throws InterruptedException {
